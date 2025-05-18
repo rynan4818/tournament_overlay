@@ -114,4 +114,6 @@ https://rynan4818.github.io/tournament_overlay/?modifiers=scale
 もしも動作しない場合は、Beat Saber Overlay 改良版の[トラブルシューティング](https://github.com/rynan4818/beat-saber-overlay/blob/master/Troubleshooting.md)を参照してください。
 
 ## 備考
-index.html, bsdp-like_d.html, bsdp-like.css は[BSDP-Overlay](https://github.com/kOFReadie/BSDP-Overlay)を元に改造しています。
+* index.html, bsdp-like_d.html, bsdp-like.css は[BSDP-Overlay](https://github.com/kOFReadie/BSDP-Overlay)を元に改造しています。
+
+* QRコード表示ライブラリとして、[libqrean](https://github.com/kikuchan/libqrean)の[Wasmデモ](https://kikuchan.github.io/libqrean/wasm/)の[Qrean.js](https://github.com/kikuchan/libqrean/blob/main/dist/Qrean.js)と[index.html](https://github.com/kikuchan/libqrean/blob/main/wasm/index.html)を流用・参考にさせて頂きました。ライセンスは[MIT License](https://github.com/kikuchan/libqrean/blob/main/LICENSE)です

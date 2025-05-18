@@ -9,6 +9,10 @@ const ui = (() => {
   var obstacle_time = 0;
   var full_combo = true;
   var before_combo = 0;
+  var qr_score = 0;
+  var qr_acc = 0;
+  var qr_miss = 0;
+  var qr_faild = false;
 
   const performance = (() => {
     const cut_energy = 1;
@@ -32,6 +36,9 @@ const ui = (() => {
 
     return (data) => {
       var performance = data.status.performance;
+      qr_score = performance.score;
+      qr_acc = (performance.score / performance.currentMaxScore * 100000.0).toFixed();
+      qr_miss = performance.missedNotes;
       if (html_id["score"]) score.innerText = format(performance.score);
       if (html_id["raw_score"]) raw_score.innerText = format(performance.rawScore);
       if (html_id["combo"]) combo.innerText = performance.combo;
@@ -56,6 +63,7 @@ const ui = (() => {
       if (typeof performance.softFailed !== "undefined") {
         if (performance.softFailed === true) {
           now_energy = null;
+          qr_faild = true;
           if (html_id["energy"]) energy.innerText = "NF";
           if (html_id["energy_group"] && energy_display) energy_group.setAttribute("style", "visibility: hidden");
           if (html_id["mod_nf"]) {
@@ -119,7 +127,10 @@ const ui = (() => {
           }
         }
         if (now_energy > 100) now_energy = 100;
-        if (data.event === "failed") now_energy = 0;
+        if (data.event === "failed"){
+          qr_faild = true;
+          now_energy = 0;
+        }
         if (now_energy < 0) now_energy = 0;
         if (html_id["energy"]) energy.innerText = Math.round(now_energy) + "%";
         if (html_id["energy_bar"]) energy_bar.setAttribute("style", `width: ${Math.round(now_energy)}%`);
@@ -266,6 +277,10 @@ const ui = (() => {
       var diff_time = 0;
       full_combo = true;
       before_combo = 0;
+      qr_score = 0;
+      qr_acc = 0;
+      qr_miss = 0;
+      qr_faild = false;
       if (ip && ip != "localhost" && ip != "127.0.0.1") {
         diff_time = Date.now() - data.time;
         console.log(diff_time);
@@ -424,6 +439,56 @@ const ui = (() => {
       document.getElementById("checkMark4").setAttribute("style", "visibility: hidden");
     },
 
+    async qr_set(){
+      function imageToDataURI(img) {
+        if (!img) return '';
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const imageData = ctx.createImageData(img.width, img.height);
+        imageData.data.set(img.data);
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.putImageData(imageData, 0, 0);
+
+        return canvas.toDataURL();
+      }
+      async function qr_encord(value){
+        const imgd = await qrean.encode(value, {
+          codeType: 'mQR',
+          dataType: 'NUMERIC',
+          scale: 2
+        }).then(imageToDataURI);
+        if (!imgd) {
+          console.log("ERROR");
+          return;
+        }
+        const img = new Image();
+        img.src = imgd;
+        return img
+      }
+      var qr_cord1 = document.getElementById("QrCord1");
+      var qr_cord2 = document.getElementById("QrCord2");
+      qr_cord1.innerHTML = "";
+      qr_cord2.innerHTML = "";
+      qr_cord1.appendChild(await qr_encord(String(qr_score).padStart(7, '0')));
+      var fll_combo_flag = '0';
+      if (full_combo) {
+        fll_combo_flag = '1';
+      }
+      if (qr_faild) {
+        fll_combo_flag = '2';
+      }
+      qr_cord2.appendChild(await qr_encord(String(qr_acc).padStart(6, '0') + fll_combo_flag + String(qr_miss).padStart(4, '0')));
+      console.log("QR");
+    },
+    
+    qr_hidden() {
+      var qr_cord1 = document.getElementById("QrCord1");
+      var qr_cord2 = document.getElementById("QrCord2");
+      qr_cord1.innerHTML = "";
+      qr_cord2.innerHTML = "";
+    },
+    
     performance,
     timer,
     beatmap

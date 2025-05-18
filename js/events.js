@@ -1,6 +1,7 @@
 const events = {
   hello(data) {
     console.log("Connected to Beat Saber");
+    ui.qr_hidden();
     ui.check_mark_hidden_set();
 
     menu_shine = true;
@@ -16,6 +17,7 @@ const events = {
   songStart(data) {
     ui.beatmap(data);
     ui.performance(data);
+    ui.qr_hidden();
     ui.start_hidden_set();
     ui.show();
     if (typeof op_songStart !== "undefined") op_songStart(data);
@@ -84,6 +86,7 @@ const events = {
         if (typeof data.other.HttpPlayButtonStatus.OptionScene === "undefined") {
           if (typeof data.other.HttpPlayButtonStatus.SceneChange !== "undefined") obs_scene_change_enable = data.other.HttpPlayButtonStatus.SceneChange;
           if (typeof data.other.HttpPlayButtonStatus.PlayStart !== "undefined" && data.other.HttpPlayButtonStatus.PlayStart) {
+            ui.qr_hidden();
             ui.start_hidden_set();
           }
         }
@@ -134,6 +137,7 @@ const events = {
     menu_shine = true;
     ui.start_hidden_release1();
     ui.start_hidden_release2();
+    ui.qr_set();
     ui.timer.stop();
     if (disp_hidden) {
       ui.hide();

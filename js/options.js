@@ -1,3 +1,6 @@
+const qrean = new Qrean({
+  // debug: true,
+});
 const query = new URLSearchParams(location.search);
 var bsr_display = false;
 var disp_hidden = true;

@@ -71,6 +71,16 @@ h1 {
   border-radius: 10px 10px 10px 10px;
 }
 
+#QrCord1 {
+  top: 5px;
+  left: 147px; 
+}
+
+#QrCord2 {
+  top: 5px;
+  right: 147px;
+}
+
 #TimingMark1 {
   top: 8px;
   left: 150px;
