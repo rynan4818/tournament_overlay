@@ -75,7 +75,7 @@ https://rynan4818.github.io/tournament_overlay/?modifiers=scale
 
        `bs*.**.**`のバージョンが使用するBeatSaberのバージョンよりも**大きいと動作しません**ので注意してください
 
-       **[HttpSiraStatus推奨バージョン](https://github.com/rynan4818/tournament_overlay/wiki/HttpSiraStatus%E4%BD%BF%E7%94%A8%E6%8E%A8%E5%A5%A8%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3-%5B2025%E5%B9%B45%E6%9C%8817%E6%97%A5%E6%99%82%E7%82%B9%5D)**
+       **[HttpSiraStatus推奨バージョン](https://github.com/rynan4818/tournament_overlay/wiki/HttpSiraStatus%E4%BD%BF%E7%94%A8%E6%8E%A8%E5%A5%A8%E3%83%90%E3%83%BC%E3%82%B8%E3%83%A7%E3%83%B3)**
    
        HttpSiraStatusを使用する際に、以前は[websocket-sharp](https://beatmods.com/mods/155)のインストールも必須でしたが、上記の2025/5/17時点での推奨バージョンではインストール不要となっています。
 
