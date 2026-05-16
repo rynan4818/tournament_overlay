@@ -1,9 +1,13 @@
+const START_RESUME_GUARD_MS = 2000;
+var song_start_event_time = null;
+
 const events = {
   hello(data) {
     console.log("Connected to Beat Saber");
     ui.check_mark_hidden_set();
 
     menu_shine = true;
+    song_start_event_time = null;
     if (data.status.beatmap && data.status.performance) {
       ui.beatmap(data);
       ui.performance(data);
@@ -14,6 +18,7 @@ const events = {
   },
 
   songStart(data) {
+    song_start_event_time = (typeof data.time === "number") ? data.time : null;
     ui.beatmap(data);
     ui.performance(data);
     ui.start_hidden_set();
@@ -119,7 +124,13 @@ const events = {
   },
 
   resume(data) {
-    ui.start_hidden_release1();
+    var allow_release_left_mark = true;
+    if (typeof data.time === "number" && typeof song_start_event_time === "number") {
+      allow_release_left_mark = (data.time - song_start_event_time) >= START_RESUME_GUARD_MS;
+    }
+    if (allow_release_left_mark) {
+      ui.start_hidden_release1();
+    }
     var ip = query.get("ip");
     var diff_time = 0;
     if (ip && ip != "localhost" && ip != "127.0.0.1") {
@@ -132,6 +143,7 @@ const events = {
 
   menu(data) {
     menu_shine = true;
+    song_start_event_time = null;
     ui.start_hidden_release1();
     ui.start_hidden_release2();
     ui.timer.stop();
